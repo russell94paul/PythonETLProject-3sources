@@ -10,4 +10,19 @@ class Extract:
         self.api = self.data_sources['data_sources']['api']
         self.csv_path = self.data_sources['data_sources']['csv']
 
-    
+    def getAPISData(self, api_name):
+        # Since we have multiple API's (Pollution and Economy Data),
+        # so we can get apt API link by passing in its name in function argument.
+
+        api_url = self.api[api_name]
+        response = requests.get(api_url)
+        # response.json() will conver json data into Python dictionary.
+        return response.json()
+
+    def getCSVData(self, csv_name):
+        # Since we can use multiple CSV data files in future,
+        # so will pass csv name as an argument to fetch the desired CSV data.
+        df = pd.read_csv(self.csv_path[csv_name])
+        return df
+
+
