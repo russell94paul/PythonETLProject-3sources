@@ -75,9 +75,30 @@ class Transform:
          mongoDB_obj = MongoDB(urllib.parse.quote_plus('root'), urllib.parse.quote_plus('password'), 'host', 'Pollution_Data')
         # Insert Data into MongoDB
         mongoDB_obj.insert_into_db(df, 'Air_Quality_India')
-    
+
+    # Crypto Market Data Transformation
+    def csvCryptoMarkets(self):
+        assetsCode = ['BTC', 'ETH', 'XRP', 'LTC']
+
+    # Converting open, close, high and low price of crypto currencies into GBP values since current price is in Dollars
+    # if currency belong to this list ['BTC','ETH','XRP','LTC']    
+    self.csv_df['open'] = self.csv_df[['open', 'asset']].apply(lambda x: (float(x[0]) * 0.75) if x[1] in assetsCode else np.nan, axis=1)
+    self.csv_df['close'] = self.csv_df[['close', 'asset']].apply(lambda x: (float(x[0]) * 0.75) if x[1] in assetsCode else np.nan, axis=1)
+    self.csv_df['high'] = self.csv_df[['high', 'asset']].apply(lambda x: (float(x[0]) * 0.75) if x[1] in assetsCode else np.nan, axis=1)
+    self.csv_df['low'] = self.csv_df[['low', 'asset']].apply(lambda x: (float(x[0]) * 0.75) if x[1] in assetsCode else np.nan, axis=1)
+
+    # Dropping rows with null values by asset column
+    self.csv_df.dropna(inplace = True)
+
+    # Saving new CSV file
+
 
            
-
+"""
+Now, transformation class’s 3 methods are as follow:
+apiEconomy(): It takes economy data and calculates GDP growth on a yearly basis.
+apiPollution(): this functions simply read the nested dictionary data, takes out relevant data and dump it into MongoDB.
+csvCryptomarkets(): this function reads data from a CSV file and converts the cryptocurrencies price into Great Britain Pound(GBP) and dumps into another CSV.
+"""
 
 
