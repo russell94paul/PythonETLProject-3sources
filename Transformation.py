@@ -1,7 +1,7 @@
 from DataSources import Extract
 from DataLoad import MongoDB
 import urllib
-import pandas as import pd
+from pandas import as pd
 import numpy as numpy
 
 
